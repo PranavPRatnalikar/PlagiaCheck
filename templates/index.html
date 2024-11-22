@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plagiarism Checker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Document Plagiarism Checker</h1>
+        <form method="POST" enctype="multipart/form-data" class="mt-4">
+            <div class="mb-3">
+                <label for="file1" class="form-label">Upload Original Document</label>
+                <input type="file" name="file1" id="file1" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label for="file2" class="form-label">Upload Created Document</label>
+                <input type="file" name="file2" id="file2" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Check Plagiarism</button>
+        </form>
+
+        {% if result %}
+        <div class="mt-5">
+            <h3 class="text-center">Results</h3>
+            <p><strong>Word-Level Similarity:</strong> {{ word_similarity }}%</p>
+            <p><strong>Sentence-Level Similarity:</strong> {{ sentence_similarity }}%</p>
+            <p><strong>Plagiarism Percentage:</strong> {{ plagiarism_percentage }}%</p>
+
+            {% if plagiarism_percentage < 20 %}
+                <div class="alert alert-success">The document is mostly original.</div>
+            {% elif plagiarism_percentage < 50 %}
+                <div class="alert alert-warning">There are some similarities between the documents.</div>
+            {% else %}
+                <div class="alert alert-danger">Significant plagiarism detected!</div>
+            {% endif %}
+        </div>
+        {% elif error %}
+        <div class="mt-5 alert alert-danger">
+            <strong>Error:</strong> {{ error }}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
